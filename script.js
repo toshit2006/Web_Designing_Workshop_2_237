@@ -1,85 +1,53 @@
-function calculateResult() {
-// Step 1: Get number of subjects
+// Selecting elements
+let heading = document.getElementById("heading");
+let input = document.getElementById("inputText");
+let para = document.getElementById("para");
 
-    let numSubjects = parseInt(document.getElementById("numSubjects").value);
-    // Step 2: Validate input
-    if (isNaN(numSubjects) || numSubjects <= 0) {
+// Buttons
+let changeTextBtn = document.getElementById("changeTextBtn");
+let colorBtn = document.getElementById("colorBtn");
+let fontBtn = document.getElementById("fontBtn");
+let toggleBtn = document.getElementById("toggleBtn");
+let resetBtn = document.getElementById("resetBtn");
 
-        alert("Please enter a valid number of subjects (greater than 0).");
-        return;
+// 1. Change Heading Text
+changeTextBtn.onclick = function() {
+    if (input.value.trim() !== "") {
+        heading.innerText = input.value;
     }
-    // Step 3: Collect marks using a loop
-    let totalMarks = 0;
-    let marksArray = [];
-    for (let i = 1; i <= numSubjects; i++) {
-        let mark = parseFloat(prompt("Enter marks for Subject " + i + " (out of 100):"));
-        if (isNaN(mark) || mark < 0 || mark > 100) {
-            alert("Invalid marks for Subject " + i + ". Please enter a value between 0 and 100.");
-            return;
-        }
-        marksArray.push(mark);
-        totalMarks += mark;
-    }
-    // Step 4: Calculate average
-    let averageMarks = totalMarks / numSubjects;
-    averageMarks = parseFloat(averageMarks.toFixed(2));
-    // Step 5: Determine grade
-    let grade;
-    let gradeClass;
-    if (averageMarks >= 90) {
-        grade = "A";
-        gradeClass = "grade-A";
-    } else if (averageMarks >= 75) {
-        grade = "B";
-        gradeClass = "grade-B";
-    } else if (averageMarks >= 60) {
-        grade = "C";
-        gradeClass = "grade-C";
-    } else if (averageMarks >= 40) {
-        grade = "D";
-        gradeClass = "grade-D";
-    } else {
-        grade = "F";
-        gradeClass = "grade-F";
-    }
-    // Step 6: Determine pass or fail
-    let resultStatus;
-    let resultClass;
-    if (averageMarks >= 40) {
-        resultStatus = "PASS";
-        resultClass = "pass";
-    } else {
-        resultStatus = "FAIL";
-        resultClass = "fail";
-    }
-    // Step 7: Display results on the webpage
-    let resultBox = document.getElementById("resultBox");
-    resultBox.innerHTML = `
-        <h2>📊 Result Summary</h2>
-        <div class="result-item">
-            <span>Number of Subjects</span>
-            <span class="result-value">${numSubjects}</span>
-        </div>
-        <div class="result-item">
-            <span>Total Marks</span>
-            <span class="result-value">${totalMarks}</span>
-        </div>
-        <div class="result-item">
-            <span>Average Marks</span>
-            <span class="result-value">${averageMarks} / 100</span>
-        </div>
-        <div class="result-item">
-            <span>Grade</span>
-            <span class="result-value">
-                <span class="grade-badge ${gradeClass}">${grade}</span>
-            </span>
-        </div>
-        <div class="result-item">
-            <span>Result</span>
-            <span class="result-value">
-                <span class="pass-badge ${resultClass}">${resultStatus}</span>
-            </span>
-        </div>
-    `;
-    resultBox.classList.remove("hidden");
-}
+};
+
+// 2. Cycle Background Colors
+let colors = ["brown", "cyan", "lightblue", "lightgreen"];
+let currentColor = 0;
+colorBtn.addEventListener("click", function() {
+    document.body.style.backgroundColor = colors[currentColor];
+    currentColor = (currentColor + 1) % colors.length;
+});
+
+// 3. Change Font Size (on click)
+fontBtn.addEventListener("click", function() {
+    heading.style.fontSize = "40px";
+});
+
+// 4. Show/Hide Paragraph
+let isVisible = true;
+toggleBtn.addEventListener("click", function() {
+    para.style.display = isVisible ? "none" : "block";
+    isVisible = !isVisible;
+});
+
+// 5. Input Change Event
+input.onchange = function() {
+    console.log("Input changed to: " + input.value);
+};
+
+// 6. Reset Page
+resetBtn.addEventListener("click", function() {
+    heading.innerText = "Welcome to JavaScript Lab";
+    document.body.style.backgroundColor = "white";
+    heading.style.fontSize = "24px";
+    para.style.display = "block";
+    input.value = "";
+    currentColor = 0; // reset color cycle
+});
